@@ -83,19 +83,3 @@ def voitis_taismangu(maatriks):
 
 
 print(voitis_taismangu(maatriks_taismang))
-
-# Maksimaalne failide arv: 1
-# Töö liik: Individuaaltöö
-# Järgnevad funktsioonid võtavad argumendiks 5 x 5 maatriksi, mis tähistab Bingo Loto tabelit ning milles iga element on kas täisarv lõigust 1 - 75 või suur trükitäht X. Täht X sümboliseerib seda, et vastav arv on mängus juba loositud.
-
-# 1. Koostada funktsioon voitis_nurkademangu, mis tagastab tõeväärtuse vastavalt sellele, kas see mänguväli on võitnud nurkademängu: kõik mänguvälja nurgad on loositud.
-
-# 2. Koostada funktsioon voitis_diagonaalidemangu, mis tagastab tõeväärtuse vastavalt sellele, kas see mänguväli on võitnud diagonaalidemängu: kõik mänguvälja diagonaalidel olevad arvud on loositud. Selleks koostada ja kasutada kahte abifunktsiooni:
-
-# Funktsioon x_peadiagonaalil, mis võtab argumendiks mänguvälja ja tagastab selle peadiagonaalil olevate X arvu.
-# Funktsioon x_korvaldiagonaalil, mis võtab argumendiks mänguvälja ja tagastab selle kõrvaldiagonaalil olevate X arvu.
-# 3. Koostada funktsioon voitis_taismangu, mis tagastab tõeväärtuse vastavalt sellele, kas see mänguväli on võitnud täismängu: kõik mänguvälja arvud on loositud.
-
-# Bingo Loto reeglitega saab täpsemalt tutvuda siin.
-
-# Lahendamisel võite vajadusel inspiratsiooni ammutada abistavast videost.
