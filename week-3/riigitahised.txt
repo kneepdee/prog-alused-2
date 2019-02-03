@@ -1,0 +1,7 @@
+ER Eritrea
+FIN Soome
+F Prantsusmaa
+H Ungari
+LT Leedu
+EST Eesti
+S Rootsi
