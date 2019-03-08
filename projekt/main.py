@@ -33,36 +33,53 @@ skp_andmed = loo_dataframe('SN02- Heaolu kasv.csv',
 põllumajandusmaa_andmed = loo_dataframe(
     'bioloogilise_mitmekesisuse_vahenemine.csv', 'Intensiivpõllumajanduse kasutuses olev maa, % territooriumist')
 
-põllumajandusmaa_andmed['Value'] = korruta_tulba_väärtused(
-    põllumajandusmaa_andmed['Value'], 2500)
-
 jäätmete_tekke_andmed = loo_dataframe(
     'jäätmed.csv', 'Jäätmete teke, tuhat tonni')
 
 sisevete_kalapüügi_andmed = loo_dataframe(
     'bioloogilise_mitmekesisuse_vahenemine.csv', 'Sisevete kalapüük, tonni')
 
-sisevete_kalapüügi_andmed['Value'] = korruta_tulba_väärtused(
-    sisevete_kalapüügi_andmed['Value'], 6)
-
 f_gaaside_heitekogus_andmed = loo_dataframe(
     'kliimamuutus.csv', 'F-gaaside heitkogus, CO2 ekvivalenttonni')
 
-f_gaaside_heitekogus_andmed['Value'] = korruta_tulba_väärtused(
-    f_gaaside_heitekogus_andmed['Value'], 105)
+skp_min = skp_andmed['Value'].min()
 
-# plot.plot(skp_andmed['Value'],
-#           label='Sisemajanduse koguprodukt elaniku kohta, eurot')
-# plot.plot(jäätmete_tekke_andmed['Value'], label='Jäätmete teke, tuhat tonni')
-# plot.plot(sisevete_kalapüügi_andmed['Value'],
-#           label='Sisevete kalapüük, 1/6 tonni')
-# plot.plot(põllumajandusmaa_andmed['Value'],
-#           label='Intensiivpõllumajanduse kasutuses olev maa, 1/2500% territooriumist')
-# plot.plot(f_gaaside_heitekogus_andmed['Value'],
-#           label='F-gaaside heitkogus, CO2 ekvivalenttonni')
+andmed_dict = {
+    'skp': [skp_andmed],
+    'põllumajandus': [põllumajandusmaa_andmed],
+    'jäätmete teke': [jäätmete_tekke_andmed],
+    'kalapüük': [sisevete_kalapüügi_andmed],
+    'f-gaasid': [f_gaaside_heitekogus_andmed]
+}
 
-# plot.legend()
-# plot.show()
+# print(andmed_dict['Sisemajanduse koguprodukt elaniku kohta, eurot'][0])
 
-# todo: funktsioon, mis automaatselt scalib väärtused skt kõveraga sobivale skaalale
-# todo: kliimamuutusest f-gaaside heitekoguse andmed
+for key, value in andmed_dict.items():
+    multiplier = str(round(skp_min / value[0]['Value'].iloc[0], 2))
+    value.append(multiplier)
+    print(value[1])
+    value[0]['Value'] = korruta_tulba_väärtused(
+        value[0]['Value'], skp_min / value[0]['Value'].iloc[0])
+
+print(andmed_dict)
+
+plot.plot(skp_andmed['Value'],
+          label='Sisemajanduse koguprodukt elaniku kohta, ' + andmed_dict['skp'][1] + ' eurot')
+plot.plot(jäätmete_tekke_andmed['Value'], label='Jäätmete teke, ' +
+          andmed_dict['jäätmete teke'][1] + ' tuhat tonni')
+plot.plot(sisevete_kalapüügi_andmed['Value'],
+          label='Sisevete kalapüük, ' + andmed_dict['kalapüük'][1] + ' tonni')
+plot.plot(põllumajandusmaa_andmed['Value'],
+          label='Intensiivpõllumajanduse kasutuses olev maa, 1/' + andmed_dict['põllumajandus'][1] + '% territooriumist')
+plot.plot(f_gaaside_heitekogus_andmed['Value'],
+          label='F-gaaside heitkogus, ' + andmed_dict['f-gaasid'][1] + ' CO2 ekvivalenttonni')
+
+plot.legend()
+plot.show()
+
+# todo:
+
+# funktsioon, mis automaatselt scalib väärtused skt kõveraga sobivale skaalale, niiet kõik jooned alagavad samast kohast
+# lisaks annab ka legendile õige väärtuse/ühiku, mida plotil näidata
+
+# küsib kasutajalt, milliseid plote ta näha tahab ja väljastab sellise ploti, millel on ainult need nõutud jooned. kasuta selleks nt array data type'i.
