@@ -8,8 +8,8 @@ def loo_dataframe(failinimi, näitaja):
                          delimiter=',', index_col='Vaatlusperiood')
 
     # jätame df-i alles ainult meid huvitavale näitajale vastavad andmed
-    näitajapõhised_andmed = andmed.ix[andmed['Näitaja'] ==
-                                      näitaja]
+    näitajapõhised_andmed = andmed.loc[andmed['Näitaja'] ==
+                                       näitaja]
 
     # vabaneme nendest tulpadest, mida vaja ei ole
     näitajapõhised_andmed = näitajapõhised_andmed.drop(
