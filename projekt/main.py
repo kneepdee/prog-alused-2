@@ -27,8 +27,8 @@ def korruta_tulba_väärtused(df_column, kordaja):
         df_column, kordaja)
 
 
-skp_andmed = loo_dataframe('SN02- Heaolu kasv.csv',
-                           'Sisemajanduse koguprodukt elaniku kohta, eurot')
+skp_andmed = loo_dataframe(
+    'SN02- Heaolu kasv.csv', 'Sisemajanduse koguprodukt elaniku kohta, eurot')
 
 põllumajandusmaa_andmed = loo_dataframe(
     'bioloogilise_mitmekesisuse_vahenemine.csv', 'Intensiivpõllumajanduse kasutuses olev maa, % territooriumist')
