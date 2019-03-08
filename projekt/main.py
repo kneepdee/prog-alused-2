@@ -52,34 +52,66 @@ andmed_dict = {
     'f-gaasid': [f_gaaside_heitekogus_andmed]
 }
 
-# print(andmed_dict['Sisemajanduse koguprodukt elaniku kohta, eurot'][0])
-
 for key, value in andmed_dict.items():
     multiplier = str(round(1 / (skp_min / value[0]['Value'].iloc[0]), 4))
     value.append(multiplier)
-    print(value[1])
     value[0]['Value'] = korruta_tulba_väärtused(
         value[0]['Value'], skp_min / value[0]['Value'].iloc[0])
 
-print(andmed_dict)
 
-plot.plot(skp_andmed['Value'],
-          label='Sisemajanduse koguprodukt elaniku kohta, eurot')
-plot.plot(jäätmete_tekke_andmed['Value'], label='Jäätmete teke, ' +
-          andmed_dict['jäätmete teke'][1] + ' tuhat tonni')
-plot.plot(sisevete_kalapüügi_andmed['Value'],
-          label='Sisevete kalapüük, ' + andmed_dict['kalapüük'][1] + ' tonni')
-plot.plot(põllumajandusmaa_andmed['Value'],
-          label='Intensiivpõllumajanduse kasutuses olev maa, ' + andmed_dict['põllumajandus'][1] + '% territooriumist')
-plot.plot(f_gaaside_heitekogus_andmed['Value'],
-          label='F-gaaside heitkogus, ' + andmed_dict['f-gaasid'][1] + ' CO2 ekvivalenttonni')
+def kasutaja_sisend_järjendiks(sisend):
+    sisend_array = sisend.split(',')
+    sisend_array_trimmed_ints = []
+    for element in sisend_array:
+        element_stripped = element.strip()
+        try:
+            element_stripped_int = int(element_stripped)
+        except ValueError:
+            print(element_stripped + ' ei ole number. Sisesta ainult numbreid.')
+            continue
+        if element_stripped_int < 1 or element_stripped_int > 5:
+            print('Sisesta ainult numbreid 1st 5ni.')
+            continue
+        sisend_array_trimmed_ints.append(element_stripped_int)
 
-plot.legend()
-plot.show()
+    return sisend_array_trimmed_ints
 
-# todo:
 
-# funktsioon, mis automaatselt scalib väärtused skt kõveraga sobivale skaalale, niiet kõik jooned alagavad samast kohast
-# lisaks annab ka legendile õige väärtuse/ühiku, mida plotil näidata
+def näita_kasutaja_valikuid_plotil(valikud):
+    plot.plot(skp_andmed['Value'],
+              label='Sisemajanduse koguprodukt elaniku kohta, eurot')
+    teemad = ['jäätmete teke', 'põllumajandus', 'kalapüük', 'f-gaasid']
+    sildid = [
+        'Jäätmete teke, ' + andmed_dict['jäätmete teke'][1] + ' tuhat tonni',
+        'Intensiivpõllumajanduse kasutuses olev maa, ' +
+        andmed_dict['põllumajandus'][1] + '% territooriumist',
+        'Sisevete kalapüük, ' + andmed_dict['kalapüük'][1] + ' tonni',
+        'F-gaaside heitkogus, ' + andmed_dict['f-gaasid'][1] + ' CO2 ekvivalenttonni']
+    if 5 in valikud:
+        for indeks, teema in enumerate(teemad):
+            plot.plot(andmed_dict[teema][0]['Value'], label=sildid[indeks])
+    else:
+        for valik in valikud:
+            plot.plot(andmed_dict[teemad[valik - 1]][0]
+                      ['Value'], label=sildid[valik - 1])
+    plot.legend()
+    plot.show()
 
-# küsib kasutajalt, milliseid plote ta näha tahab ja väljastab sellise ploti, millel on ainult need nõutud jooned. kasuta selleks nt array data type'i.
+
+def küsi_kasutajalt_sisendit():
+    while True:
+        kasutaja_input = input(
+            'Vali, milliseid näitajaid tahad graafikul SKT-ga võrdlemiseks näha. \n 0 Näita ainult SKT-d \n 1 Jäätmete teke \n 2 Intensiivpõllumajanduse kasutuses olev maa \n 3 Sisevete kalapüük \n 4 F-gaaside heitkogus \n 5 Näita kõiki korraga \n Sisesta näitajate järjekorranumbrid komaga eraldatuna: ')
+        if kasutaja_input == '':
+            print('\n Sisesta vähemalt üks number!\n')
+            continue
+        else:
+            break
+    return kasutaja_input
+
+
+kasutaja_input = küsi_kasutajalt_sisendit()
+
+kasutaja_valikud = kasutaja_sisend_järjendiks(kasutaja_input)
+
+näita_kasutaja_valikuid_plotil(kasutaja_valikud)
