@@ -55,7 +55,7 @@ andmed_dict = {
 # print(andmed_dict['Sisemajanduse koguprodukt elaniku kohta, eurot'][0])
 
 for key, value in andmed_dict.items():
-    multiplier = str(round(skp_min / value[0]['Value'].iloc[0], 2))
+    multiplier = str(round(1 / (skp_min / value[0]['Value'].iloc[0]), 4))
     value.append(multiplier)
     print(value[1])
     value[0]['Value'] = korruta_tulba_väärtused(
@@ -64,13 +64,13 @@ for key, value in andmed_dict.items():
 print(andmed_dict)
 
 plot.plot(skp_andmed['Value'],
-          label='Sisemajanduse koguprodukt elaniku kohta, ' + andmed_dict['skp'][1] + ' eurot')
+          label='Sisemajanduse koguprodukt elaniku kohta, eurot')
 plot.plot(jäätmete_tekke_andmed['Value'], label='Jäätmete teke, ' +
           andmed_dict['jäätmete teke'][1] + ' tuhat tonni')
 plot.plot(sisevete_kalapüügi_andmed['Value'],
           label='Sisevete kalapüük, ' + andmed_dict['kalapüük'][1] + ' tonni')
 plot.plot(põllumajandusmaa_andmed['Value'],
-          label='Intensiivpõllumajanduse kasutuses olev maa, 1/' + andmed_dict['põllumajandus'][1] + '% territooriumist')
+          label='Intensiivpõllumajanduse kasutuses olev maa, ' + andmed_dict['põllumajandus'][1] + '% territooriumist')
 plot.plot(f_gaaside_heitekogus_andmed['Value'],
           label='F-gaaside heitkogus, ' + andmed_dict['f-gaasid'][1] + ' CO2 ekvivalenttonni')
 
